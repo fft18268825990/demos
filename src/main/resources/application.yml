@@ -1,0 +1,65 @@
+logging:
+  level:
+    com.rabbitmq.mapper : debug
+server:
+  port: 8999
+spring:
+  application:
+    name: spring-boot-rabbitmq
+  rabbitmq:
+    host: 10.200.6.156
+    port: 5672
+    username: guest
+    password: guest
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/rabbitmq?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    filters: stat,wall,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  redis:
+    database: 0
+    host: 10.200.6.156
+    port: 6379
+    password:
+    timeout: 5000
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+dubbo:
+  application:
+    name: rabbitmq
+  registry:
+    address: zookeeper://10.200.6.156:2181
+  scan:
+    base-packages: com.rabbitmq.service
+
+#重试次数
+curator:
+  retryCount: 100
+#重试间隔时间
+  elapsedTimeMs: 5000
+# zookeeper 地址
+  connectString: 10.200.6.156:2181
+# session超时时间
+  sessionTimeoutMs: 60000
+# 连接超时时间
+  connectionTimeoutMs: 50000
